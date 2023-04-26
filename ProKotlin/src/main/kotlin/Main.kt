@@ -60,4 +60,17 @@ fun main(args: Array<String>) {
     * it will return the singleton unit instance
     * */
 
+    /* Chapter 3
+    *  Section 6 Abstract or interface
+    * Is-a versus Can-Do: Any type can inherit from one parent class only and multiple interfaces.
+    * If for the derived class B you can't say B Is-an A (A is the base type), don't use an interface
+    * but rather an interface. Interfaces imply a Can-Do relationship. If the Can-do functionality is
+    *  applicable to different object types, go with an interface implementation. For example, for both
+    * FileOutputStream and ByteOutputpuStream (and any of the other sibling implementations available),
+    * you can say they have an Is-a relationship with java.io.OutputStream. Hence you will see that
+    * OutputStream is an abstract class providing common implementations to all objects that represent
+    * a writable stream. However, Autocloseable, which represents an object holding a resource that can
+    * be released when the close method is invoked, provides a Can-do functionality and thus it makes sense
+    * to have it as an interface.*/
+
 }
