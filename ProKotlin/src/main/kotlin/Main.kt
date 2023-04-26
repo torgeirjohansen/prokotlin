@@ -73,4 +73,8 @@ fun main(args: Array<String>) {
     * be released when the close method is invoked, provides a Can-do functionality and thus it makes sense
     * to have it as an interface.*/
 
+    /* Section 8  In Kotlin, you would have to tag the function as being opened to redefine it. To do so, you need to
+    add the open keyword as a prefix to the method definition, and when you redefine the method, you
+    specifically have to mark it using the override keyword*/
+
 }
