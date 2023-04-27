@@ -77,4 +77,33 @@ fun main(args: Array<String>) {
     add the open keyword as a prefix to the method definition, and when you redefine the method, you
     specifically have to mark it using the override keyword*/
 
+    /* Chapter 4.4
+    * Kotlin allows us to take this a step further by supporting functions declared inside other functions.
+    * These are called local or nested functions. Functions can even be nested multiple times.*/
+
+    /* Chapter 4.5
+    * In addition to member functions and local functions, Kotlin also supports declaring top-level functions.
+    * These are functions that exist outside of any class, object, or interface and are defined directly inside
+    *  a file. The name top-level comes from the fact that functions are not nested inside any structure and
+    * so they are at the top of the hierarchy of classes and functions*/
+
+    // Chapter 4.10 Function literals
+    val printHello = { message: String -> println("message is: $message") }
+    printHello("some message")
+
+    // Chapter 4.13 Kotlin Standard library
+    // Apply, let, repeat:
+    repeat(3, { println("Hello") })
+
+    // Chapter 4.15
+    /* In functional programming, the concept of a pure function is one that holds the following two properties:
+    //
+    * The function should always return the same output for the same input
+    * The function should not create any side effects
+
+    The advantages of pure functions are several. The results of the functions can be cached, which is advantageous
+    for slow functions. Pure functions can be easily parallelized since they don't write anything to a shared state.
+    They can be tested in isolation since they depend on nothing but their input instances.*/
+
+
 }
