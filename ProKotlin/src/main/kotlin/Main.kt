@@ -1,4 +1,5 @@
 import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 
 fun main(args: Array<String>) {
     // Try adding program arguments via Run/Debug configuration.
@@ -105,5 +106,74 @@ fun main(args: Array<String>) {
     for slow functions. Pure functions can be easily parallelized since they don't write anything to a shared state.
     They can be tested in isolation since they depend on nothing but their input instances.*/
 
+
+    /*
+    * Higher order functions
+    * A higher order function is simply a function that either accepts another function as a parameter,
+    * returns a function as its return value, or both.
+    *
+    * With an imperative approach, a developer writes code that specifies the steps that the computer must take
+    * to accomplish the goal. This is sometimes referred to as algorithmic programming. In contrast, a functional
+    * approach involves composing the problem as a set of functions to be executed.
+    *
+    *
+    *
+    * */
+    val chapter5 = Chapter5()
+    chapter5.asParam("Hello") { it.reversed() }
+
+    val f1 = chapter5.bar();
+    println("f1: $f1")
+    println("f1.invoke(\"1234\", \"1\"): ${f1.invoke("1234", "1")}")
+    println("f1(\"1234\", \"1\"): ${f1("1234", "1")}")
+
+    /* Chapter 5.2 closures
+    * In functional programming, a closure is a function that has access to variables and parameters defined in outer scopes.
+    *  It is said that they "close over" these variables, hence the name closure.
+    * */
+
+    // Extension methods
+    fun Int.isOdd(): Boolean = this % 2 != 0
+    println("4.isOdd: ${4.isOdd()}")
+
+    /*
+     * Chapter 5.8
+     * As we have seen from earlier sections, functions are instances of objects, and, of course, each instance requires an
+     * allocation in the heap. There are also method invocations required when invoking the function. Overall,
+     * using functions introduces an overhead.
+
+     * Kotlin allows us to avoid this overhead by use of the inline keyword. This keyword indicates to the compiler that the
+     * function marked as inline, as well as function parameters, should be expanded and generated inline at the call site,
+     * hence the name.
+     * */
+    fun <T : AutoCloseable, U> withResource(resource: T, fn: (T) -> U): U {
+        try {
+            return fn(resource)
+        } finally {
+            resource.close()
+        }
+    }
+
+    /*
+    * A common technique in functional programming is the concept of currying. Currying is the process of transforming a function
+    * that accepts multiple parameters into a series of functions, each of which accept a single function
+    * */
+
+    /*
+    * Memoization is a technique for speeding up function calls by caching and reusing the output instead of recomputing for a given
+    * set of inputs. This technique offers a trade-off between memory and speed. The typical applications are for computationally
+    * expensive functions or for recursive functions, which branch out calling the recursive function many times with the same values,
+    * such as Fibonacci.
+    * */
+    fun <A, R> memoize(fn: (A) -> R): (A) -> R {
+        val map = ConcurrentHashMap<A, R>()
+        return { a ->
+            map.getOrPut(a) {
+                fn(a)
+            }
+        }
+    }
+
+    // usage:  val memquery = memoize(::query) 
 
 }
