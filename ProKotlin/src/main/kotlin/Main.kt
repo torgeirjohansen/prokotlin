@@ -176,4 +176,26 @@ fun main(args: Array<String>) {
 
     // usage:  val memquery = memoize(::query) 
 
+
+    /*
+    * Chapter 13
+    *
+    * Concurrency is a general term that means two tasks are active and making progress at the same time, whereas parallelism is a
+    * stricter term that means two tasks are both executing at a particular instant. The two are often used interchangeably, but
+    * true parallelism is the goal of concurrent programming.
+    *
+    * To avoid these issues, we must perform an interrupt on the thread. An interrupt is a way of forcing a thread that is currently
+    * blocked to wake up and continue. It literally interrupts the thread. When this happens, the blocking function will throw an
+    * exception InterruptedException, which must be handled. InterruptedException is your way of knowing that the thread was interrupted.
+    *
+    * The concept is important when deciding how to split up executions into threads. Let's say we had a thread pool of eight threads and we
+    * allocated this pool to both our CPU- and I/O-bounded computations.
+    *
+    * If this is the case, then it is possible we could have a situation where we could have all the eight threads blocked on a slow network
+    * to deliver bytes while the the Pi calculation would make no progress despite the CPU being idle.
+    *
+    * A common solution to this is to have two thread pools. Have one for CPU-bound operations, which might have its size limited to
+    * the number of CPU cores. And have another pool for IO-bound operations, which would typically be larger since these threads would
+    * often be in the blocked state, waiting on data
+    * */
 }
