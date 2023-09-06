@@ -197,5 +197,17 @@ fun main(args: Array<String>) {
     * A common solution to this is to have two thread pools. Have one for CPU-bound operations, which might have its size limited to
     * the number of CPU cores. And have another pool for IO-bound operations, which would typically be larger since these threads would
     * often be in the blocked state, waiting on data
+    *
+    * 13.4
+    *
+    * When a thread reaches a synchronized call for a monitor that is already held by another thread, it is placed in a set of waiting threads.
+    * Once the holding thread gives up the monitor, one of the waiting threads is chosen. There is no guaranteed ordering as to which the
+    * waiting thread will acquire the monitor, that is, the thread that arrives first does not have any priority over the one that arrives at the end.
+    *
+    * To be clear, synchronization as a technique only works if the threads are requesting the monitor for the same exact instance. Every instance
+    * of a class has its own monitor, so there is no benefit of having two threads request the monitor of different instances of the same class.
+    * This is a common cause of errors made by beginners.
     * */
+
+    
 }
