@@ -174,7 +174,21 @@ fun main(args: Array<String>) {
         }
     }
 
-    // usage:  val memquery = memoize(::query) 
+    // usage:  val memquery = memoize(::query)
+    /*
+    * Making a DSL (chapter 5.13)
+    *
+    * */
+    infix fun Any.shouldEqual(other: Any): Unit {
+        if (this != other)
+            throw RuntimeException("$this was not equal to $other")
+    }
+
+    "egg" shouldEqual "toast"
+
+    /*
+    * Chapter 6
+    * */
 
 
     /*
@@ -207,7 +221,25 @@ fun main(args: Array<String>) {
     * To be clear, synchronization as a technique only works if the threads are requesting the monitor for the same exact instance. Every instance
     * of a class has its own monitor, so there is no benefit of having two threads request the monitor of different instances of the same class.
     * This is a common cause of errors made by beginners.
+    *
+    *
+    * 10 thread for reading 10 feeds at the same time:
+    *
+    * As each thread waits for more data to become available, it blocks. As the threads block or as their time slice expires, the system will
+    * context switch between the threads. If we were to scale out this system to a thousand feeds, that's a lot of switching, when the bulk of
+    * the time will still be spent waiting on the network.
+    * A better solution might be to have the I/O system inform us when the data is made available, then we could allocate a thread to process
+    * that data. For us to be notified, we must provide a function that the I/O system knows to run when ready, and that function or block is
+    * commonly referred to as a callback. This is the idea behind non-blocking I/O. Java introduced non-blocking I/O in the 1.4 edition of the JDK.
     * */
 
-    
+    // Futures:
+//    val executor = Executors.newFixedThreadPool(4)
+//
+//    val future: Future<Double> = executor.submit(Callable<Double> {
+//        Math.sqrt(15.64)
+//    })
+//    future.get()
+
+
 }
