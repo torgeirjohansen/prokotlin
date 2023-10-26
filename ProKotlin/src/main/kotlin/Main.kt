@@ -184,13 +184,40 @@ fun main(args: Array<String>) {
             throw RuntimeException("$this was not equal to $other")
     }
 
-    "egg" shouldEqual "toast"
+    //"egg" shouldEqual "toast"
 
     /*
-    * Chapter 6
+    * Chapter 6.4
+    * Any non-null property has to be initialized in the constructor. What if you want to inject the property value via a dependency
+    * injection and you don't want to check for null every time you access it? Or, maybe you simply set the property value in one of
+    * the methods exposed by your type. Kotlin comes with support for delayed initialization. All you have to do is use the lateinit keyword
+    *
+    * Chapter 6.5
+    * Delegated properties
+    *
+    * class Player(val map: Map<String, Any?>) {
+      val name: String by map
+      val age: Int     by map
+      val height: Double by map
+    }
+
+    val player = Player(mapOf("name" to "Alex Jones", "age" to 28,  "height" to 1.82))
+    println("Player ${player.name} is ${player.age} ages old and is  ${player.height} cm tall")
+    *
+    * Chapter 6.6 Lazy init
     * */
 
+    class WithLazyProperty {
+        val foo: Int by lazy {
+            println("Initializing foo")
+            2
+        }
+    }
 
+    println("Before init the instance using the lazy property")
+    val lazyInstance = WithLazyProperty()
+    println("After init the instance using the lazy property")
+    println("Lazy property total:${lazyInstance.foo + lazyInstance.foo}")
     /*
     * Chapter 13
     *
