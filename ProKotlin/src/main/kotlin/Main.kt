@@ -218,6 +218,12 @@ fun main(args: Array<String>) {
     val lazyInstance = WithLazyProperty()
     println("After init the instance using the lazy property")
     println("Lazy property total:${lazyInstance.foo + lazyInstance.foo}")
+
+    /**
+     * 
+     *
+     */
+
     /*
     * Chapter 13
     *
@@ -267,6 +273,8 @@ fun main(args: Array<String>) {
 //        Math.sqrt(15.64)
 //    })
 //    future.get()
+
+
 
 
 }
