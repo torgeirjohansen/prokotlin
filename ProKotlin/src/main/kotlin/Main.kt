@@ -1,5 +1,7 @@
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.properties.Delegates
+import kotlin.reflect.KClass
 
 fun main(args: Array<String>) {
     // Try adding program arguments via Run/Debug configuration.
@@ -220,11 +222,59 @@ fun main(args: Array<String>) {
     println("Lazy property total:${lazyInstance.foo + lazyInstance.foo}")
 
     /**
-     * 
+     *  chapter 6.7
+     *  The lazy {...} delegate can only be used for val properties; lateinit can only be used for var properties
      *
+     * Chapter 6.8 Observables
      */
 
-    /*
+    class WithObservableProp {
+        var value: Int by Delegates.observable(0) { p, oldNew, newVal -> onValueChanged()
+        }
+
+        private fun onValueChanged() {
+            println("value has changed:$value")
+        }
+    }
+    val onChange = WithObservableProp()
+    onChange.value = 10
+    onChange.value = -20
+
+    /**
+     * 6.10 methods or properties
+     * If calling the property code yields different outcomes each time, you should use a method.
+     * Say you are returning the current time; you should create a method for it rather than providing a property
+     *
+     *
+     * Chapter 7 Null safety
+     * Chapter 7.2 Smart cast
+     * Chapter 7.3 safe null access
+     * fun getCountryNameSafe(person: Person?): String? {
+     *       return person?.address?.city?.country?.name
+     *     }
+     * Force operator !!
+     * We force the variable name to be of non-nullable type by postfixing the force operator:
+     * */
+    val nullableName: String? = "george"
+    val name: String = nullableName!!
+    /**
+    * Chapter 7.4 Elvis operator
+     * val nullableName: String? = ...
+     *     val name: String = nullableName ?: "default_name"
+     *
+     * Chapter 7.5 Safe casting
+     * If we want to safely cast to a type, or null if the cast would fail, then we can use the safe cast operator as?
+     *  val location: Any = "London"
+     *     val safeString: String? = location as? String
+     *     val safeInt: Int? = location as? Int
+     *
+     * 7.7 Reflection
+     * For each class loader there is only one KClass for any given type
+     * */
+    val name2 = "George"
+    val kclass: KClass<out String> = name2::class
+
+    /**
     * Chapter 13
     *
     * Concurrency is a general term that means two tasks are active and making progress at the same time, whereas parallelism is a
