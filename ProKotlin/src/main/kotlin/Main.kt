@@ -273,6 +273,11 @@ fun main(args: Array<String>) {
      * */
     val name2 = "George"
     val kclass: KClass<out String> = name2::class
+    /**
+     * 7.10 KClass properties
+     * */
+    class Sandwich<F1, F2>()
+    
 
     /**
     * Chapter 13
