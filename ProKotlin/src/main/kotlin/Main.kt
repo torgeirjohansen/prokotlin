@@ -2,6 +2,7 @@ import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.properties.Delegates
 import kotlin.reflect.KClass
+import kotlin.reflect.full.functions
 
 fun main(args: Array<String>) {
     // Try adding program arguments via Run/Debug configuration.
@@ -277,7 +278,18 @@ fun main(args: Array<String>) {
      * 7.10 KClass properties
      * */
     class Sandwich<F1, F2>()
-    
+    val types = Sandwich::class.typeParameters
+    types.forEach {
+        println("Type ${it.name} has upper bound ${it.upperBounds} ")
+    }
+
+    // 7.11
+
+
+    val rocket = Rocket()
+    val kclass2: KClass<out Rocket> = rocket::class
+    val function = kclass2.functions.find { it.name == "explode"}
+    function?.call(rocket)
 
     /**
     * Chapter 13
