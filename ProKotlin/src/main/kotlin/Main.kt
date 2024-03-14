@@ -1,3 +1,4 @@
+import java.io.Serializable
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.properties.Delegates
@@ -284,12 +285,63 @@ fun main(args: Array<String>) {
     }
 
     // 7.11
-
-
     val rocket = Rocket()
     val kclass2: KClass<out Rocket> = rocket::class
     val function = kclass2.functions.find { it.name == "explode"}
     function?.call(rocket)
+
+
+    /**
+     * Chapter 8 Generics
+     * Kotlin supports one such type of bound known as an upper bound. As the name implies, an upper bound restricts the types to those
+     * that are subclasses of the bound. To use an upper bound, we simply declare it alongside the type parameter:
+     * */
+    fun <T : Comparable<T>>min(first: T, second: T): T {
+        val k = first.compareTo(second)
+        return if (k <= 0) first else second
+    }
+
+    // Multiple bounds:
+    fun <T>minSerializable(first: T, second: T): T
+            where T : Comparable<T>,T : Serializable {
+        val k = first.compareTo(second)
+        return if (k <= 0) first else second
+    }
+    /**
+     * Invariance problem
+     * The simplest solution to this problem is the approach taken in Kotlin, which is to make type parameters invariant by default.
+     * When type parameters are invariant, there is no subtype relationship between the types. That is to say, a type M<T> is neither
+     * a subtype nor a supertype of M<U>, regardless of the relationship between T and U. So to the complier a Crate<Apple> and a Crate<Fruit>
+     *     are as related as a Crate<Apple> and a Crate<BigDecimal>
+     *
+     * We want to allow a crate of oranges when we are asked for a crate of fruit, but safely. This means we want a crate of oranges to be
+     * considered a subtype of a crate of fruit. We already know that this is unsafe when we mutate the crate by adding in a different subtype,
+     * such as an apple or a pear. So is there a way to get this to work? The answer is yes and it's called covariance.
+     *
+     * When defining a class, we can mark a type parameter as covariant, which means that the class will maintain the subtyping
+     * relationship of the concrete type parameters. To do that, we prefix the type parameter with the keyword out:
+     *
+     *     class CovariantCrate<out T>(val elements: List<T>)
+     * *
+     *
+     * The opposite of covariant is contravariant. When a type parameter is marked as contravariant, then the relationship between the
+     * type parameters is reversed in the types themselves. That is, String is a subtype of Any, but a Box<String> would be a supertype of a
+     * Box<Any> if Box had its type parameter marked as contravariant.
+     *
+     * To mark a type parameter as contravariant, we mark the type parameter with the keyword in.
+     *
+     * Recall that when we marked a type parameter as covariant the compiler then restricted the use of the type parameter to return values only.
+     * In contrast, when using contravariance, we can only use the type parameters as input parameters and not as return types.
+     * The reason is essentially the inverse of the fruit and oranges problem we started this chapter with.
+     *
+     * If we had a function that returned a T and we allowed that T to be contravariant, then a particular instance may be expecting
+     * to receive values of Orange, but instead could be given a Fruit. Trying to peel the orange would fail if the fruit was actually a Tomato.
+     *
+     * Chapter 8.5 Nothing type
+     *
+     * The main use, however, is as a type parameter in variant types. If we have a covariant type, and we want to create an instance that is
+     * compatible with all supertypes, we can use Nothing as the type parameter.
+     * */
 
     /**
     * Chapter 13
