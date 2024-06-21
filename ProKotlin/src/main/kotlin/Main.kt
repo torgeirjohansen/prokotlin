@@ -341,6 +341,30 @@ fun main(args: Array<String>) {
      *
      * The main use, however, is as a type parameter in variant types. If we have a covariant type, and we want to create an instance that is
      * compatible with all supertypes, we can use Nothing as the type parameter.
+     *
+     * 8.6
+     * Type projection
+     * But what about the case where someone else has defined a class to be invariant and you require it to be used in a covariant or contravariant way?
+     * Kotlin addresses this by introducing a powerful addition called type projections.
+     *
+     * A type projection allows us to restrict the functions available on a type so that it fulfills the criteria necessary to be considered covariant or contravariant.
+     * If we could inform the compiler that we have no desire to call add on the Crate type, then there is no reason why we couldn't use it in a covariant way.
+     *
+     * When using a type projection, the compiler restricts us to only invoking functions where the type parameter is in the allowed position. So, if we project as covariant,
+     * we can only invoke functions that return T (or don't use T at all), and if we project as contravariant, we can only invoke functions that accept T (or again don't use T)
+     *
+     * 8.8
+     * A reifiable type is the name given to a type when its type information can be inspected at runtime.
+     *
+     *
+     *    inline fun <reified T>printT(any: Any): Unit {
+     *       if (any is T)
+     *       println("I am a tee: $any")
+     *     }
+     *     
+     * So how does Kotlin perform this trick? The answer lies in the fact that reified functions must be defined as inline.
+     * In all places that the function is invoked, the body will be copied into the call site.
+     * Since at the call site the compiler knows the type parameter used, it is able to replace references to T with references to the proper type.
      * */
 
     /**
