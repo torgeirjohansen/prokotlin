@@ -1,4 +1,5 @@
 import java.io.Serializable
+import java.math.BigDecimal
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.properties.Delegates
@@ -361,11 +362,23 @@ fun main(args: Array<String>) {
      *       if (any is T)
      *       println("I am a tee: $any")
      *     }
-     *     
+     *
      * So how does Kotlin perform this trick? The answer lies in the fact that reified functions must be defined as inline.
      * In all places that the function is invoked, the body will be copied into the call site.
      * Since at the call site the compiler knows the type parameter used, it is able to replace references to T with references to the proper type.
+     *
+     *
+     * 8.9
+     *
+     * Recursive type bounds
+     * introduce an upper bound on the type parameter for Account so that when we create an instance of Account the Comparable interface is passed our
+     * type as that contains the balance property. We can do this by using what is known as a recursive type bound
+     *
      * */
+
+    data class SavingsAccount4(override val balance: BigDecimal, val  interestRate: BigDecimal) : Account4<SavingsAccount4>
+
+    data class TradingAccount4(override val balance: BigDecimal, val  margin: Boolean) : Account4<TradingAccount4>
 
     /**
     * Chapter 13
